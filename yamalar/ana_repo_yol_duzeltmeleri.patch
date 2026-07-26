@@ -1,0 +1,231 @@
+diff --git a/.gitignore b/.gitignore
+index 437c2a1..de19ea8 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -34,3 +34,8 @@ istemci/**/_images/
+ # gorev_1/birincil_run7_26l.pt (53MB) -> yarışma modeli repoda
+ tests/**/build/
+ yarisma_sent.jsonl
++
++# Yerel tesisat provası çıktıları (yeniden üretilebilir)
++prova_yerel/
++run_duman_testi/
++predictions.csv
+diff --git a/KURULUM.md b/KURULUM.md
+index 0de2c0e..426e100 100644
+--- a/KURULUM.md
++++ b/KURULUM.md
+@@ -11,8 +11,18 @@ Her adım 2026 Temmuz'daki gerçek kurulumun kayıtlarından (SETUP_LOG.md) dam
+ >   (bu repodaki `istemci/TAKIM_BAGLANTI_ARAYUZU` oraya kopyalanır)
+ 
+ ## 0) Önkoşullar
+-- Ubuntu 22.04, NVIDIA GPU (≥6 GB VRAM; RTX 4060'ta doğrulandı) ve çalışan NVIDIA
+-  sürücüsü (`nvidia-smi` çıktı veriyor olmalı), ~40 GB boş disk, internet.
++- Ubuntu 22.04, NVIDIA GPU (≥6 GB VRAM; RTX 4060 ve RTX 3060'ta doğrulandı) ve çalışan
++  NVIDIA sürücüsü (`nvidia-smi` çıktı veriyor olmalı), ~50 GB boş disk, internet.
++- **CUDA Toolkit 12.x ŞART** (yalnız sürücü yetmez): LibTorch cu121, SP_SLAM3 cmake
++  aşamasında CUDA kütüphanelerini arar; yoksa derleme
++  `Caffe2Config.cmake ... cannot find the CUDA libraries` ile durur.
++```bash
++wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
++sudo dpkg -i cuda-keyring_1.1-1_all.deb && sudo apt update
++sudo apt install -y cuda-toolkit-12-2   # 'cuda' meta-paketi DEĞİL (sürücüye dokunmaz)
++```
++  Doğrulama: `/usr/local/cuda-12.2/bin/nvcc --version` → release 12.2.
++  (Sürücü 580 / CUDA 13.0 ile geriye dönük uyumludur; sürücüyü yükseltmeyin.)
+ 
+ ## 1) Sistem paketleri
+ ```bash
+@@ -51,6 +61,10 @@ unzip -q libtorch-*.zip && sudo mv libtorch /usr/local/libtorch
+ ```
+ (cuDNN gerekmez; paket kendi bağımlılıklarını taşır. CMake varsayılan olarak
+ `/usr/local/libtorch`'a bakar; farklı yol için `TORCH_DIR` ortam değişkeni.)
++Dinamik bağlayıcıya tanıt (build.sh yalnız kendi indirdiğinde bunu yapar):
++```bash
++echo "/usr/local/libtorch/lib" | sudo tee /etc/ld.so.conf.d/libtorch.conf && sudo ldconfig
++```
+ 
+ ## 5) SP_SLAM3 derle + sözlük
+ ```bash
+@@ -66,7 +80,7 @@ Sorunda: SETUP_LOG.md FAZ 2-5 bölümleri gerçek kurulumun tüm çözümlerini
+ **a) Sistem python3 — yarışma istemcisi bununla koşar:**
+ ```bash
+ pip3 install --user torch --index-url https://download.pytorch.org/whl/cu121
+-pip3 install --user ultralytics transformers kornia opencv-python pillow numpy \
++pip3 install --user ultralytics transformers kornia opencv-python "pillow>=10.4" numpy \
+                      python-decouple requests tqdm
+ pip3 install --user "git+https://github.com/cvg/LightGlue.git"
+ python3 -c "import torch; print('CUDA:', torch.cuda.is_available())"   # True olmalı
+diff --git a/canli_prova.sh b/canli_prova.sh
+index f1a4c7f..993d5b2 100755
+--- a/canli_prova.sh
++++ b/canli_prova.sh
+@@ -10,7 +10,7 @@ OT=${1:?oturum no (1-4)}
+ START=${2:-0}
+ LIMIT=${3:-2250}
+ DROP=${4:-450-1199,1260-2249}
+-PY=/home/zeylo/venvs/slam/bin/python
++PY=$HOME/venvs/slam/bin/python
+ case $OT in
+   1) FR=prova2025/frames    ; YML=thyz2025_cropA.yaml    ;;
+   2) FR=prova2025/frames_o2 ; YML=thyz2025_cropA.yaml    ;;
+@@ -41,7 +41,7 @@ $PY mock_server.py --frames-dir $FR --gt $GT --start $START --limit $LIMIT \
+     --out prova2025/mock_canli.csv &
+ sleep 2
+ $PY bridge.py --server 127.0.0.1:$PORT \
+-    --settings /home/zeylo/SP_SLAM3/Examples/Monocular/$YML \
++    --settings $HOME/SP_SLAM3/Examples/Monocular/$YML \
+     --run-dir $RUN --out $PRED --viewer &
+ BRIDGE=$!
+ sleep 3
+diff --git a/dr_deney.py b/dr_deney.py
+index fcebce8..71e668e 100644
+--- a/dr_deney.py
++++ b/dr_deney.py
+@@ -13,7 +13,8 @@ Modeller:
+ import csv
+ import numpy as np
+ 
+-BASE = "/home/zeylo/Masaüstü/teknofest_gorev2/prova2025/"
++import os
++BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prova2025") + "/"
+ GECMIS = 20          # durum kestirimi için kullanılan kare sayısı
+ TAU_V = 40.0
+ TAU_W = 150.0
+diff --git a/rapor_o2/uret_rapor.py b/rapor_o2/uret_rapor.py
+index 25d7fe9..28d779f 100644
+--- a/rapor_o2/uret_rapor.py
++++ b/rapor_o2/uret_rapor.py
+@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
+ from matplotlib.patches import Patch
+ from matplotlib.lines import Line2D
+ 
+-BASE = "/home/zeylo/Masaüstü/teknofest_gorev2"
++BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ OUT = os.path.join(BASE, "rapor_o2")
+ PRED = os.path.join(BASE, "prova2025/pred_O2full.csv")
+ GTF = os.path.join(BASE, "prova2025/oturum2_gt.csv")
+diff --git a/replay_analiz.py b/replay_analiz.py
+index 76546a5..0a36b83 100644
+--- a/replay_analiz.py
++++ b/replay_analiz.py
+@@ -15,7 +15,8 @@ import sys
+ 
+ import numpy as np
+ 
+-sys.path.insert(0, "/home/zeylo/Masaüstü/teknofest_gorev2")
++import os
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ from alignment import solve_alignment
+ 
+ 
+diff --git a/v5_zincir.sh b/v5_zincir.sh
+index bb2d5e7..03b4860 100755
+--- a/v5_zincir.sh
++++ b/v5_zincir.sh
+@@ -2,7 +2,7 @@
+ # v5 doğrulama zinciri: harman (blend_tau=600) — O2, O3, O4 sıralı.
+ set -u
+ cd "$(dirname "$0")"
+-PY=/home/zeylo/venvs/slam/bin/python
++PY=$HOME/venvs/slam/bin/python
+ DROP="450-1199,1260-2249"
+ 
+ kos() {
+@@ -16,7 +16,7 @@ kos() {
+     local MOCK=$!
+     sleep 2
+     $PY bridge.py --server 127.0.0.1:$PORT \
+-        --settings /home/zeylo/SP_SLAM3/Examples/Monocular/$YML \
++        --settings $HOME/SP_SLAM3/Examples/Monocular/$YML \
+         --run-dir prova2025/run_O${OT}v5 --out prova2025/pred_O${OT}v5.csv
+     wait $MOCK 2>/dev/null
+     echo "=== Oturum $OT (v5) bitti: $(date +%H:%M:%S) ==="
+diff --git a/v6_zincir.sh b/v6_zincir.sh
+index 4d4f8bb..78ae40a 100755
+--- a/v6_zincir.sh
++++ b/v6_zincir.sh
+@@ -2,7 +2,7 @@
+ # v6 doğrulama zinciri: harman (blend_tau=600) — O2, O3, O4 sıralı.
+ set -u
+ cd "$(dirname "$0")"
+-PY=/home/zeylo/venvs/slam/bin/python
++PY=$HOME/venvs/slam/bin/python
+ DROP="450-1199,1260-2249"
+ 
+ kos() {
+@@ -16,7 +16,7 @@ kos() {
+     local MOCK=$!
+     sleep 2
+     $PY bridge.py --server 127.0.0.1:$PORT \
+-        --settings /home/zeylo/SP_SLAM3/Examples/Monocular/$YML \
++        --settings $HOME/SP_SLAM3/Examples/Monocular/$YML \
+         --run-dir prova2025/run_O${OT}v6 --out prova2025/pred_O${OT}v6.csv
+     wait $MOCK 2>/dev/null
+     echo "=== Oturum $OT (v6) bitti: $(date +%H:%M:%S) ==="
+diff --git a/v7_zincir.sh b/v7_zincir.sh
+index fbe01ff..738900e 100755
+--- a/v7_zincir.sh
++++ b/v7_zincir.sh
+@@ -2,7 +2,7 @@
+ # v7 doğrulama zinciri: harman (blend_tau=600) — O2, O3, O4 sıralı.
+ set -u
+ cd "$(dirname "$0")"
+-PY=/home/zeylo/venvs/slam/bin/python
++PY=$HOME/venvs/slam/bin/python
+ DROP="450-1199,1260-2249"
+ 
+ kos() {
+@@ -16,7 +16,7 @@ kos() {
+     local MOCK=$!
+     sleep 2
+     $PY bridge.py --server 127.0.0.1:$PORT \
+-        --settings /home/zeylo/SP_SLAM3/Examples/Monocular/$YML \
++        --settings $HOME/SP_SLAM3/Examples/Monocular/$YML \
+         --run-dir prova2025/run_O${OT}v7 --out prova2025/pred_O${OT}v7.csv
+     wait $MOCK 2>/dev/null
+     echo "=== Oturum $OT (v7) bitti: $(date +%H:%M:%S) ==="
+diff --git a/v8_zincir.sh b/v8_zincir.sh
+index 8261a99..11f45f5 100755
+--- a/v8_zincir.sh
++++ b/v8_zincir.sh
+@@ -2,7 +2,7 @@
+ # v8 doğrulama zinciri: harman (blend_tau=600) — O2, O3, O4 sıralı.
+ set -u
+ cd "$(dirname "$0")"
+-PY=/home/zeylo/venvs/slam/bin/python
++PY=$HOME/venvs/slam/bin/python
+ DROP="450-1199,1260-2249"
+ 
+ kos() {
+@@ -16,7 +16,7 @@ kos() {
+     local MOCK=$!
+     sleep 2
+     $PY bridge.py --server 127.0.0.1:$PORT \
+-        --settings /home/zeylo/SP_SLAM3/Examples/Monocular/$YML \
++        --settings $HOME/SP_SLAM3/Examples/Monocular/$YML \
+         --run-dir prova2025/run_O${OT}v8 --out prova2025/pred_O${OT}v8.csv
+     wait $MOCK 2>/dev/null
+     echo "=== Oturum $OT (v8) bitti: $(date +%H:%M:%S) ==="
+diff --git a/video_analiz.sh b/video_analiz.sh
+index 81979ec..7857f87 100755
+--- a/video_analiz.sh
++++ b/video_analiz.sh
+@@ -7,7 +7,7 @@ set -u
+ cd "$(dirname "$0")"
+ OT=${1:?oturum no (1-6)}
+ DROP="450-2249"
+-PY=/home/zeylo/venvs/slam/bin/python
++PY=$HOME/venvs/slam/bin/python
+ case $OT in
+   1) FR=prova2025/frames    ; YML=thyz2025_cropA.yaml    ;;
+   2) FR=prova2025/frames_o2 ; YML=thyz2025_cropA.yaml    ;;
+@@ -40,7 +40,7 @@ $PY mock_server.py --frames-dir $FR --gt $GT --start 0 --limit 2250 \
+     --out prova2025/mock_analiz_o${OT}.csv &
+ sleep 2
+ $PY bridge.py --server 127.0.0.1:$PORT \
+-    --settings /home/zeylo/SP_SLAM3/Examples/Monocular/$YML \
++    --settings $HOME/SP_SLAM3/Examples/Monocular/$YML \
+     --run-dir $RUN --out $PRED --blend-tau 0 --viewer &
+ BRIDGE=$!
+ sleep 3

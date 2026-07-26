@@ -1,0 +1,67 @@
+%YAML:1.0
+
+#--------------------------------------------------------------------------------------------
+# TEKNOFEST 2026 Görev 2 — RGB 4K kamerası (resmi Kamera_Kalibrasyon_Parametreleri_2026.txt)
+# Orijinal: fx=2792.2 fy=2795.2 cx=1988.0 cy=1562.2, görüntü 4000x3000 (GxY)
+# SLAM çözünürlüğü: 1280x960 (ölçek = 1280/4000 = 0.32) → fx,fy,cx,cy × 0.32
+# Distorsiyon katsayıları ölçekle DEĞİŞMEZ (k1,k2,p1,p2 aynen).
+# OOM olursa: 960x720'ye düş (ölçek 0.24: fx=670.13 fy=670.85 cx=477.12 cy=374.93).
+#--------------------------------------------------------------------------------------------
+Camera.type: "PinHole"
+
+Camera.fx: 930.733
+Camera.fy: 931.733
+Camera.cx: 636.000
+Camera.cy: 380.733
+
+Camera.k1: 0.0798
+Camera.k2: -0.1867
+Camera.p1: 0.0
+Camera.p2: 0.0
+
+Camera.width: 1280
+Camera.height: 720
+
+# Video ~7.5 FPS (oturum başına ~2250 kare / 60 dk → şartname)
+Camera.fps: 7.5
+
+# Renk düzeni (RGB=1)
+Camera.RGB: 1
+
+#--------------------------------------------------------------------------------------------
+# SuperPoint / Özellik Çıkarıcı
+#--------------------------------------------------------------------------------------------
+ORBextractor.nFeatures: 800
+ORBextractor.scaleFactor: 1.2
+ORBextractor.nLevels: 1
+ORBextractor.iniThFAST: 0.155
+ORBextractor.minThFAST: 0.055
+
+# SuperPoint FP16 sorunsuz (FAZ 6/7 doğrulandı)
+SuperPoint.useFP16: 1
+
+#--------------------------------------------------------------------------------------------
+# Eşleştirme / Yer Tanıma
+#--------------------------------------------------------------------------------------------
+LightGlue.model_path: "lightglue.pt"
+# FP16 KAPALI: trace'li TorchScript'te dtype gömülü; FP16 → "float != c10::Half"
+# çökmesi (SETUP_LOG PATCH kaydı). FP32'de bırak.
+LightGlue.useFP16: 0
+
+# CosPlace/NetVLAD export edilmedi (opsiyonel; DBoW3'e düşer)
+PlaceRecognition.model_path: ""
+PlaceRecognition.useFP16: 0
+
+#--------------------------------------------------------------------------------------------
+# Görselleştirici (bUseViewer=false ile açılmıyor; alanlar tamlık için)
+#--------------------------------------------------------------------------------------------
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize: 2
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500

@@ -1,0 +1,67 @@
+%YAML:1.0
+
+#--------------------------------------------------------------------------------------------
+# TEKNOFEST 2026 Görev 2 — RGB 1080p kamerası (resmi kalibrasyon, 2026-07-15)
+# Orijinal: fx=1389.7 fy=1387.1 cx=954.007 cy=558.896, k1=0.1378 k2=-0.2564,
+#           görüntü 1920x1080 (GxY)
+# SLAM çözünürlüğü: 1280x720 (ölçek = 1280/1920 = 2/3) → fx,fy,cx,cy × 2/3
+# Distorsiyon katsayıları ölçekle DEĞİŞMEZ (k1,k2,p1,p2 aynen).
+#--------------------------------------------------------------------------------------------
+Camera.type: "PinHole"
+
+Camera.fx: 926.467
+Camera.fy: 924.733
+Camera.cx: 636.005
+Camera.cy: 372.597
+
+Camera.k1: 0.1378
+Camera.k2: -0.2564
+Camera.p1: 0.0
+Camera.p2: 0.0
+
+Camera.width: 1280
+Camera.height: 720
+
+# Video ~7.5 FPS (oturum başına ~2250 kare / 5 dk → şartname)
+Camera.fps: 7.5
+
+# Renk düzeni (RGB=1)
+Camera.RGB: 1
+
+#--------------------------------------------------------------------------------------------
+# SuperPoint / Özellik Çıkarıcı
+#--------------------------------------------------------------------------------------------
+ORBextractor.nFeatures: 800
+ORBextractor.scaleFactor: 1.2
+ORBextractor.nLevels: 1
+ORBextractor.iniThFAST: 0.155
+ORBextractor.minThFAST: 0.055
+
+# SuperPoint FP16 sorunsuz (FAZ 6/7 doğrulandı)
+SuperPoint.useFP16: 1
+
+#--------------------------------------------------------------------------------------------
+# Eşleştirme / Yer Tanıma
+#--------------------------------------------------------------------------------------------
+LightGlue.model_path: "lightglue.pt"
+# FP16 KAPALI: trace'li TorchScript'te dtype gömülü; FP16 → "float != c10::Half"
+# çökmesi (SETUP_LOG PATCH kaydı). FP32'de bırak.
+LightGlue.useFP16: 0
+
+# CosPlace/NetVLAD export edilmedi (opsiyonel; DBoW3'e düşer)
+PlaceRecognition.model_path: ""
+PlaceRecognition.useFP16: 0
+
+#--------------------------------------------------------------------------------------------
+# Görselleştirici (bUseViewer=false ile açılmıyor; alanlar tamlık için)
+#--------------------------------------------------------------------------------------------
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize: 2
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500

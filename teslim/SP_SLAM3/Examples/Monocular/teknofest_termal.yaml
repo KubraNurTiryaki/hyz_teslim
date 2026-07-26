@@ -1,0 +1,52 @@
+%YAML:1.0
+
+#--------------------------------------------------------------------------------------------
+# TEKNOFEST 2026 — TERMAL kamera (resmi Kamera_Kalibrasyon_Parametreleri_2026.txt)
+# 512(y)×640(g) — küçültme YOK (SLAM'e native beslenir; bridge --width 1280 zaten
+# upscale yapmaz). Q&A: termal görüntüler 3 kanal formatında gelir.
+# SPDetector'da CLAHE ön-işleme mevcut (düşük kontrast için).
+#--------------------------------------------------------------------------------------------
+Camera.type: "PinHole"
+
+Camera.fx: 731.7965
+Camera.fy: 732.0172
+Camera.cx: 319.2367
+Camera.cy: 251.2424
+
+Camera.k1: -0.3507
+Camera.k2: 0.1137
+Camera.p1: 0.0
+Camera.p2: 0.0
+
+Camera.width: 640
+Camera.height: 512
+
+Camera.fps: 7.5
+Camera.RGB: 1
+
+#--------------------------------------------------------------------------------------------
+ORBextractor.nFeatures: 800
+ORBextractor.scaleFactor: 1.2
+ORBextractor.nLevels: 1
+# Termal yumuşak dokuda eşikler düşük tutuldu (RGB'deki 0.155/0.055'e karşı)
+ORBextractor.iniThFAST: 0.09
+ORBextractor.minThFAST: 0.03
+
+SuperPoint.useFP16: 1
+
+LightGlue.model_path: "lightglue.pt"
+LightGlue.useFP16: 0
+
+PlaceRecognition.model_path: ""
+PlaceRecognition.useFP16: 0
+
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize: 2
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500

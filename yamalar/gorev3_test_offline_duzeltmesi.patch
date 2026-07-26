@@ -1,0 +1,16 @@
+diff --git a/test_offline.py b/test_offline.py
+index b320ead..f43d2d8 100644
+--- a/test_offline.py
++++ b/test_offline.py
+@@ -30,8 +30,9 @@ try:
+     
+     with torch.no_grad():
+         # Gri tonlamalı girdilerimizi modele besliyoruz
+-        feats1 = extractor({'image': dummy_gray1[0]})
+-        feats2 = extractor({'image': dummy_gray2[0]})
++        # SuperPoint (B,C,H,W) bekler; batch boyutu düşürülmemeli (bkz. gorev3/matcher.py)
++        feats1 = extractor({'image': dummy_gray1})
++        feats2 = extractor({'image': dummy_gray2})
+         matches = matcher({'image0': feats1, 'image1': feats2})
+     
+     print("✅ SuperPoint & LightGlue başarıyla yüklendi ve test edildi!")

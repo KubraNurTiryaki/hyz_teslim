@@ -1,0 +1,39 @@
+# --- Gizli / kimlik bilgileri (ASLA push edilmez) ---
+.env
+**/.env
+**/config/.env
+_logs/
+**/_logs/
+_images/
+**/_images/
+
+# --- Buyuk veri (GitHub'a sigmaz / TEKNOFEST verisi) ---
+*.MP4
+*.mp4
+*.avi
+
+# --- Model agirliklari (otomatik indirilebilir; README'ye bak) ---
+gorev3/weights/*.pt
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- Cikti / gecici ---
+_test_output/
+*.tmp
+*.log
+
+# --- Isletim sistemi ---
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# --- Editor / arac yerel ayarlari (makineye ozel, paylasilmaz) ---
+.claude/
+.vscode/
+.idea/
