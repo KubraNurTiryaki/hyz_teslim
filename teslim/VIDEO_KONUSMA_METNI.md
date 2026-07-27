@@ -57,7 +57,7 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 
 ## 0:00 – 0:15 · Açılış
 
-**EKRAN #1:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`
+**▶ EKRAN:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
 **satır 1-18** (modül başlığı, üç görevin listelendiği yer)
 
 > Merhaba, hamidiye_4907501 takımıyız.
@@ -67,28 +67,30 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 
 ## 0:15 – 0:50 · İki süreç, bir köprü
 
-**EKRAN #2:** aynı dosya **satır 32-43** (yol tanımları + üç import)
-**EKRAN #3:** `gorev2_engine.py` **satır 149-159**
-(`subprocess.Popen` ile SLAM'in başlatıldığı yer)
+**▶ EKRAN:** aynı dosyada **satır 32-43**'e in (yol tanımları + üç import)
 
 > Sistem resmî arayüzün main dosyasıyla başlıyor. O dosyaya hiç dokunmadık.
 >
 > Kurallar tek bir dosyayı değiştirmemize izin veriyordu. Biz de ekrandaki
 > object detection model dosyasını değiştirdik. Burada ağır bir kod yok. Bu dosya
 > sadece üç görevin motorunu çağırıyor. Orkestra şefi gibi düşünün.
->
+
+**▶ EKRAN DEĞİŞ:** `gorev2_engine.py`, **satır 149-159**
+*Satır 155'te `subprocess.Popen` görünsün — C++ sürecinin doğduğu yer.*
+
 > Program çalışırken iki süreç var. Biri Python süreci. Görev 1 ve Görev 3'ün
 > modelleri burada, ikisi de aynı GPU'da. Diğeri C++ süreci. SLAM orada çalışıyor.
->
+
+**▶ FARE:** **satır 152**'yi seç — `inbox` ve `outbox` klasörlerinin geçtiği satır
+
 > Peki bu ikisi nasıl haberleşiyor? Dosya sistemi üzerinden. Python kareyi bir
 > klasöre yazıyor. C++ tarafı bulduğu konumu bir metin dosyasına yazıyor. Python
 > da o dosyayı sürekli takip ediyor.
 
 ## 0:50 – 1:25 · Bir karenin yolculuğu
 
-**EKRAN #4:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`
-→ `detect()` **satır 181-297**, yavaş kaydır. Üç görev bloğunun başlıkları ve
-`try/except` satırları görünsün
+**▶ EKRAN DEĞİŞ:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
+`detect()` başı (**satır 181**)
 
 > Şimdi tek bir karenin sistem içinde izlediği yolu takip edelim.
 >
@@ -99,7 +101,10 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 >
 > Bu döngüde kritik bir kısıt var. Sunucu, biz tahmin göndermeden bir sonraki
 > kareyi vermiyor. Yani tek bir karede takılırsak bütün oturumu kaybediyoruz.
->
+
+**▶ FARE:** aşağı kaydırıp **`try/except` bloklarını** sırayla göster
+(Görev 1, Görev 2, Görev 3 blokları — satır 181-297 arası)
+
 > O yüzden her görevi kendi try-except bloğuna aldık. Görev 1 çökerse kare boş
 > tespitle gidiyor. Görev 2 çökerse ölü hesap konumuyla gidiyor. Ama kare mutlaka
 > gidiyor. Bu bloklar hatayı gizlemek için değil. Döngü hiç durmasın diye.
@@ -110,46 +115,44 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 
 ## 1:25 – 2:00 · Görev 1, nesne tespiti
 
-**EKRAN #5:** `gorev_1/yarisma_pipeline.py` → `kare_isle()` **satır 146-190**,
-üç `_det()` çağrısını sırayla işaretle
-**EKRAN #6 (tam ekran, ~1:45):** `gorseller/05_uc_gorev_kare_520.jpg`
+**▶ EKRAN:** `gorev_1/yarisma_pipeline.py`, `kare_isle()` görünsün (satır 146)
 
 > Görev 1 nesne tespiti. Modelimiz YOLO26-large, kendi verimizle eğittik. Dört
 > sınıf var, yaklaşık 34 bin görüntü kullandık. mAP değerimiz 0.849.
 >
 > Ama tek geçişli bir tespit bu iş için yetmiyor. Üç kademeli bir hat kurduk.
->
+
+**▶ FARE:** **satır 149**'u seç — `_det(kare, 1280, ...)`
+
 > Birinci kademede 1280 pikselle bütün kareyi tarıyoruz.
->
+
+**▶ FARE:** **satır 164**'e in — `_det(crop, 192, 0.10)`
+
 > İkinci kademe iniş pedleri için. Aday pedi kırpıp modele bir daha soruyoruz.
 > Buna hakem diyoruz.
->
+
+**▶ FARE:** **satır 168**'e in — `_det(crop, 640, 0.10)`
+
 > Üçüncü kademede onayladığımız pedin içine bakıyoruz. İnsan varsa o pede
 > inilemez diyoruz.
->
+
+**▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/05_uc_gorev_kare_520.jpg`
+*Turuncu kutuların üstünde "tasit sabit" yazıyor — cümle tam onu anlatıyor.*
+
 > Hareketli mi sabit mi sorusunda da kameranın kendi hareketini ORB ve RANSAC ile
 > çıkarıyoruz.
 
 ## 2:00 – 3:15 · Görev 2, GPS olmadan konum ⭐ VİDEONUN MERKEZİ
 
-**EKRAN #7:** `gorev2_engine.py` → `process_frame()` **satır 297-340**
-(sağlık 1 / sağlık 0 dallanması)
-**EKRAN #8:** `alignment.py` → `_umeyama_2d()` **satır 112-121**
-(yansıma adayı bloğu)
-**EKRAN #9 (tam ekran, ~2:45):** `gorseller/01_hizalama_BOZUK_33.8m.png`
-— başlıkta **"33.8 m"** görünsün, **3 saniye dur**
-**EKRAN #10 (tam ekran, ~2:55):** `gorseller/02_hizalama_DUZELTILMIS_6.2m.png`
-— başlıkta **"6.2 m"**
-
-💡 **KURGU NOTU (okunmaz, sadece kurgu talimatı):** #9'dan #10'a kesme yapmadan,
-üst üste bindirerek geç. İki grafik aynı oturum, aynı SLAM çıktısı; tek fark
-hizalama matematiği. Yumuşak geçiş, farkı gözle vurur.
+**▶ EKRAN:** `gorev2_engine.py`, `process_frame()` (satır 297 civarı)
 
 > Görev 2, GPS olmadan konum bulma.
 >
 > SLAM tarafında ORB-SLAM3'ün kendi geliştirdiğimiz sürümünü kullanıyoruz. Klasik
 > ORB yerine SuperPoint ve LightGlue koyduk.
->
+
+**▶ FARE:** sağlık 1 / sağlık 0 dallanmasını seç (**satır 297-340**)
+
 > Sunucu her karede bize bir sağlık biti gönderiyor. Sağlık bir ise gerçek konum
 > zaten elimizde. Onu aynen geri gönderiyoruz, hatamız sıfır. Ama o kareyi SLAM'e
 > de veriyoruz. Böylece SLAM'in bulduğu konumla gerçek konumu eşleştirip çiftler
@@ -157,63 +160,91 @@ hizalama matematiği. Yumuşak geçiş, farkı gözle vurur.
 >
 > Sağlık sıfıra düştüğünde, yani kör bölgede, bu çiftlerden öğrendiğimiz dönüşümle
 > SLAM'in konumunu metreye çeviriyoruz.
->
+
+**▶ EKRAN DEĞİŞ:** `alignment.py`, **satır 112-121** (`allow_reflection` bloğu)
+*Satır 117'de `S_refl[1, 1] = -1.0` görünsün — anlattığın yansıma tam o satır.*
+
 > En kritik bulgumuz burada. Standart çözüm Umeyama dönüşümü. Ama Umeyama
 > yansımaya izin vermez.
 >
 > Bizim verimizde SLAM'in çerçevesiyle gerçek çerçeve arasında bir yansıma vardı.
 > Yansımaya izin vermeyen çözüm x ve y'yi doğru buluyordu. Ama karşılığında z'yi
 > ters çeviriyordu.
->
-> Ekrandaki iki grafik aynı oturum, aynı SLAM çıktısı. Tek fark hizalama
+
+**▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/01_hizalama_BOZUK_33.8m.png`
+*Cümleyi söylemeden önce **1 saniye sus**, göz grafiğe otursun.*
+
+> Şimdi göreceğiniz iki grafik aynı oturum, aynı SLAM çıktısı. Tek fark hizalama
 > matematiği.
 >
-> Solda z ekseni tamamen ters gidiyor. Ortalama hata 33,8 metre.
->
-> Sağda x ile y'yi yansımaya izin vererek hizaladık. Z'yi de ayrı çözdük. Hata 6,2
-> metreye düştü. Z eksenindeki hata 27,7 metreden 3,2 metreye indi.
+> Bu ilk grafikte z ekseni tamamen ters gidiyor. Ortalama hata 33,8 metre.
+
+**▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/02_hizalama_DUZELTILMIS_6.2m.png`
+
+💡 **KURGU NOTU (okunmaz):** Bu geçişi kesme yapmadan, üst üste bindirerek yap.
+İki grafiğin ekseni aynı; yumuşak geçiş, yeşil çizginin maviye oturuşunu gözle
+vurur. Geçiş bitince cümleye başla.
+
+> Şimdi düzeltilmiş hali. X ile y'yi yansımaya izin vererek hizaladık. Z'yi de
+> ayrı çözdük. Hata 6,2 metreye düştü. Z eksenindeki hata 27,7 metreden 3,2
+> metreye indi.
 >
 > Yarışmanın kendi metriğiyle 2025 oturumlarında hatamız 4,3 ile 8,8 metre
 > arasında çıkıyor.
 
 ## 3:15 – 3:45 · Görev 3, referans nesne
 
-**EKRAN #11:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`
-**satır 275-295**, `if not bbox: continue` satırını fareyle işaretle
-**EKRAN #12 (tam ekran, ~3:30):** `gorseller/06_uc_gorev_kare_1955.jpg`
+**▶ EKRAN:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
+**satır 275** civarı (Görev 3 bloğunun başı)
 
 > Görev 3 referans nesne tespiti. Burada bir sınıf aramıyoruz. Size verilen tek
 > bir örnek fotoğraftaki o nesneyi bulmanız gerekiyor.
 >
 > Hibrit bir yöntem kurduk. FastSAM kareyi parçalara ayırıyor. DINOv2 her parçanın
 > vektörünü çıkarıyor. Sonra referans fotoğrafla benzerliğine bakıyoruz.
->
+
+**▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/06_uc_gorev_kare_1955.jpg`
+*Sağ şeritteki iki küçük resmi (Ref 02, Ref 03) fareyle göster, sonra karedeki
+yeşil kutuyu göster — "aranan bu, bulunan şurası" akışı.*
+
 > Sağdaki küçük resim aranan referans, yeşil kutu da sistemin bulduğu yer.
->
+
+**▶ EKRAN DEĞİŞ:** aynı kod dosyasına dön, **satır 292**'yi fareyle seç
+(`if not bbox: continue`)
+
 > Ekranda işaretlediğim kontrol bizim için kritik. Emin değilsek hiçbir kutu
 > göndermiyoruz. Çünkü yanlış pozitif ceza getiriyor. Arayüzde güven skoru alanı
 > yok. Gönderilen her kutu kesin iddia sayılıyor.
 
 ## 3:45 – 4:15 · Bu sayıları nasıl ölçtük
 
-**EKRAN #13:** `resmi_mock.py` (`--drop`, `--limit` argümanları görünsün)
-**EKRAN #14 (tam ekran, ~4:00):** `gorseller/04_2026_rgb_yorunge_ve_hata.png`
-— **sağ paneldeki hata eğrisinde kare 1200'ü fareyle göster** (hatanın sıfıra düştüğü yer)
+**▶ EKRAN:** `resmi_mock.py`, **satır 177-180** (`--limit`, `--drop` argümanları)
 
 > Peki bu sayıları nereden biliyoruz?
 >
 > Resmî sunucunun yerel bir kopyasını yazdık. Aynı protokol, aynı sağlık biti
 > düşüşleri, aynı referans pencereleri. Yarışma komutunun aynısını, sadece adresi
 > değiştirerek yüzlerce kez çalıştırdık.
->
-> Sağdaki grafik resmî 2026 örnek videosunun tamamı. Hata kör bölgede birikiyor.
+
+**▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/04_2026_rgb_yorunge_ve_hata.png`
+*Bu görselde iki panel var: solda uçuş yolu, sağda hata eğrisi. Konuşurken
+**sağ panele** odaklan.*
+
+> Ekrandaki grafik resmî 2026 örnek videosunun tamamı.
+
+**▶ FARE:** sağ panelde eğrinin yükseldiği turuncu bölgeyi göster
+
+> Sağ panelde hata kör bölgede birikiyor.
+
+**▶ FARE:** sağ panelde **kare 1200**'ü göster (eğrinin dibe indiği yer)
+
 > Sonra sistem altmış karelik sağlıklı bir pencere görünce hata sıfıra düşüyor.
 > Sistem kendini yeniden hizalıyor.
 
 ## 4:15 – 4:30 · Kapanış
 
-**EKRAN #15:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`
-→ `detect()` tamamı, uzaklaştırılmış
+**▶ EKRAN DEĞİŞ:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
+`detect()` tamamı. `Ctrl+-` ile 2-3 kez uzaklaştır, fonksiyon bütün olarak görünsün.
 
 > Özetle şunu kurduk. Resmî arayüze tek dosyayla bağlanan, üç görevi tek süreçte
 > çalıştıran, hiçbir hatada durmayan bir sistem.
