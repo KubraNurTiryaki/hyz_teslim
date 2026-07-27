@@ -13,9 +13,15 @@
 > metindir. `EKRAN #n` satırları ve 💡 notları **söylenmez**, sadece ne
 > göstereceğini anlatır.
 
-> ⚠ **Süre:** mail "5 dakikayı aşmayacak" diyor. Bu metin **620 konuşulan kelime**
-> (sayıldı, tahmin değil). 150 kelime/dk → **4:08** · 145 → 4:17 ·
-> **en yavaş ihtimalde (135) 4:36**. Her koşulda 5 dakikanın altında.
+> ⚠ **Süre:** mail "5 dakikayı aşmayacak" diyor. Bu metin **661 konuşulan kelime**
+> (sayıldı, tahmin değil). 150 kelime/dk → **4:24** · 145 → 4:34 ·
+> **en yavaş ihtimalde (135) 4:54**. Her koşulda 5 dakikanın altında,
+> ama pay daraldı — prova çekiminde süreyi mutlaka ölç.
+
+> 🎬 **27 Temmuz'da çekilen video 4:58.5 idi.** Bu metin, oraya 30 saniyelik
+> canlı koşu klibi (#13) eklenmiş hâlidir. Yer açmak için **mock sunucu
+> paragrafı çıkarıldı** (o bölümü artık klip anlatıyor). Kurguda: klibi ekle,
+> mock sunucu anlatımının olduğu ~30 saniyeyi çıkar.
 
 ---
 
@@ -37,9 +43,9 @@
 | 10 | 2:55 | **Görsel (tam ekran)** — DÜZELTİLMİŞ, 6.2 m | `gorseller/02_hizalama_DUZELTILMIS_6.2m.png` |
 | 11 | 3:15 | Kod — FP koruması, **satır 275-295** | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
 | 12 | 3:30 | **Görsel (tam ekran)** — yeşil G3 kutusu + referans küçük resmi | `gorseller/06_uc_gorev_kare_1955.jpg` |
-| 13 | 3:50 | Kod — `--drop`, `--limit` argümanları | `resmi_mock.py` |
-| 14 | 4:00 | **Görsel (tam ekran)** — yörünge + hata eğrisi | `gorseller/04_2026_rgb_yorunge_ve_hata.png` |
-| 15 | 4:15 | Kod — `detect()` tamamı, uzaklaştırılmış | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
+| 13 | 3:45 | **KLİP (tam ekran, 29,8 sn)** — üç görev örnek veri üzerinde çalışıyor | `gorseller/08_uc_gorev_canli_kosu.mp4` |
+| 14 | 4:15 | **Görsel (tam ekran)** — yörünge + hata eğrisi | `gorseller/04_2026_rgb_yorunge_ve_hata.png` |
+| 15 | 4:30 | Kod — `detect()` tamamı, uzaklaştırılmış | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
 
 **Yedek görseller** (metinde geçmiyor, elinin altında dursun):
 - RGB 3 eksen, GT vs SLAM: `gorseller/03_2026_rgb_3eksen_GT_vs_SLAM.png`
@@ -216,15 +222,26 @@ yeşil kutuyu göster — "aranan bu, bulunan şurası" akışı.*
 > göndermiyoruz. Çünkü yanlış pozitif ceza getiriyor. Arayüzde güven skoru alanı
 > yok. Gönderilen her kutu kesin iddia sayılıyor.
 
-## 3:45 – 4:15 · Bu sayıları nasıl ölçtük
+## 3:45 – 4:30 · Üç görev örnek veri seti üzerinde & doğrulama
 
-**▶ EKRAN:** `resmi_mock.py`, **satır 177-180** (`--limit`, `--drop` argümanları)
+**▶ EKRAN:** `gorseller/08_uc_gorev_canli_kosu.mp4` — **tam ekran oynat** (29,8 sn)
 
-> Peki bu sayıları nereden biliyoruz?
+💡 **KURGU NOTU (okunmaz):** Klip sessizdir, üzerine konuşulur. Hızlandırma.
+Klibin iç zamanlaması: 0-8 sn başlık + model yükleme · 8-20 sn `SAGLIKLI`
+kareler · 20-23 sn `KESINTI`'ye geçiş · 23-26 sn Görev 3 kutuları beliriyor ·
+26-30 sn özet. Anlatımı bu akışa denk getir; 64 kelime ≈ 26 sn, yani klibin
+sonunda birkaç saniye sessizlik kalır — özet satırı okunsun diye böyle.
+
+> Şimdi üç görevi resmî örnek veri seti üzerinde birlikte çalıştırıyoruz.
+> Ekrandaki komut, yarışma istemcisinin detect fonksiyonunu çağırıyor; tek fark
+> kareleri sunucudan değil örnek videodan okuması.
 >
-> Resmî sunucunun yerel bir kopyasını yazdık. Aynı protokol, aynı sağlık biti
-> düşüşleri, aynı referans pencereleri. Yarışma komutunun aynısını, sadece adresi
-> değiştirerek yüzlerce kez çalıştırdık.
+> Her satır bir kare. Görev 1'in nesneleri, Görev 2'nin konumu ve hatası,
+> Görev 3'ün referans kutuları aynı satırda.
+>
+> Üstteki kareler sağlıklı. Aşağıda kesintiye giriyoruz, Görev 2 kendi
+> kestirimini üretiyor. Referans penceresi açılınca Görev 3 de kutu göndermeye
+> başlıyor.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/04_2026_rgb_yorunge_ve_hata.png`
 *Bu görselde iki panel var: solda uçuş yolu, sağda hata eğrisi. Konuşurken
@@ -241,7 +258,7 @@ yeşil kutuyu göster — "aranan bu, bulunan şurası" akışı.*
 > Sonra sistem altmış karelik sağlıklı bir pencere görünce hata sıfıra düşüyor.
 > Sistem kendini yeniden hizalıyor.
 
-## 4:15 – 4:30 · Kapanış
+## 4:30 – 4:45 · Kapanış
 
 **▶ EKRAN DEĞİŞ:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
 `detect()` tamamı. `Ctrl+-` ile 2-3 kez uzaklaştır, fonksiyon bütün olarak görünsün.
@@ -280,7 +297,7 @@ yeşil kutuyu göster — "aranan bu, bulunan şurası" akışı.*
 - Tarayıcı sekmeleri, masaüstü bildirimleri (kayıttan önce kapatın)
 
 ## Süre kontrolü
-620 kelime. Prova çekiminde **4:45'i geçiyorsa** kesilecek ilk yerler, sırayla:
+661 kelime. Prova çekiminde **4:45'i geçiyorsa** kesilecek ilk yerler, sırayla:
 1. Görev 1'deki ego-hareket cümlesi ("Hareketli mi sabit mi…") — 14 kelime
 2. "Bu sayıları nasıl ölçtük" ilk paragrafı — 28 kelime
 3. Görev 1'deki "hakem" cümlesi ("Aday pedi kırpıp…") — 12 kelime
