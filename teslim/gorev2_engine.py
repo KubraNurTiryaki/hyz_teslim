@@ -85,9 +85,24 @@ class PoseReader(threading.Thread):
         self._stop = True
 
 
+def _slam_kok_bul() -> str:
+    """SP_SLAM3 kokunu bulur: GOREV2_SLAM_ROOT > paket ici > ~/SP_SLAM3.
+
+    Boylece paket nereye acilirsa acilsin SLAM bulunur; ortam degiskeni
+    verilmediginde eski davranis (~/SP_SLAM3) aynen korunur.
+    """
+    ort = os.environ.get("GOREV2_SLAM_ROOT")
+    if ort:
+        return os.path.expanduser(ort)
+    yanindaki = os.path.join(os.path.dirname(os.path.abspath(__file__)), "SP_SLAM3")
+    if os.path.exists(os.path.join(yanindaki, "Examples/Monocular/mono_folder_watch")):
+        return yanindaki
+    return os.path.expanduser("~/SP_SLAM3")
+
+
 class Gorev2Engine:
     def __init__(self, settings,
-                 slam_root=os.path.expanduser("~/SP_SLAM3"),
+                 slam_root=None,
                  vocab="Vocabulary/superpoint_voc.dbow3",
                  run_dir="run", width=1280,
                  pose_timeout=1.2, min_pairs=10, window=300,
@@ -95,7 +110,7 @@ class Gorev2Engine:
                  keep_frames=False, dr_tau=40.0, viewer=False,
                  blend_tau=0.0):
         self.settings = os.path.abspath(settings)
-        self.slam_root = slam_root
+        self.slam_root = slam_root or _slam_kok_bul()
         self.vocab = vocab
         self.run_dir = os.path.abspath(run_dir)
         self.width = width

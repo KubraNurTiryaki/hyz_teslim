@@ -43,9 +43,15 @@ cp -r ~/Masaüstü/teknofest_gorev2/istemci/TAKIM_BAGLANTI_ARAYUZU \
 LFS kontrolü: `du -h ~/SP_SLAM3/lightglue.pt` → **~46 MB** olmalı.
 Birkaç KB ise `cd ~/SP_SLAM3 && git lfs pull`.
 
-> **Bu ZIP'i kullanıyorsanız:** depoları klonlamak yerine ZIP içeriğini
-> `~/Masaüstü/teknofest_gorev2` olarak açabilirsiniz; `SP_SLAM3/` ve
-> `hyz_gorev3/` alt klasörleri ZIP'in içindedir.
+> **Bu ZIP'i kullanıyorsanız:** klonlamaya gerek yok, ZIP'i **istediğiniz yere**
+> açabilirsiniz; `SP_SLAM3/` ve `hyz_gorev3/` alt klasörleri ZIP'in içindedir.
+> Yalnız iki noktaya dikkat:
+> 1. ZIP'i `~/Masaüstü/teknofest_gorev2` dışına açtıysanız `GOREV2_DIR` /
+>    `GOREV3_DIR` değişkenlerini o yola ayarlayın (bkz. §4.4).
+> 2. **SP_SLAM3 derlenmiş olmalı.** ZIP'teki `SP_SLAM3/` kaynak halindedir;
+>    §1.5'i ZIP'in içindeki `SP_SLAM3/` klasöründe uygularsanız motor onu
+>    kendiliğinden bulur. Başka bir yere derlediyseniz `GOREV2_SLAM_ROOT` ile
+>    yolunu verin.
 
 ### 1.3 Pangolin v0.8 (SLAM görselleştirme)
 ```bash
@@ -237,7 +243,9 @@ Son satır `Session complete` ise tesisat sağlamdır.
 | `GOREV2_DIR` | `~/Masaüstü/teknofest_gorev2` | Motor ve Görev 1/2 kökü |
 | `GOREV1_DIR` | `$GOREV2_DIR/gorev_1` | Görev 1 hattı + model |
 | `GOREV3_DIR` | `~/Masaüstü/hyz_gorev3` | Görev 3 paketi |
+| `GOREV2_SLAM_ROOT` | paket içi `SP_SLAM3/` varsa o, yoksa `~/SP_SLAM3` | Derlenmiş SP_SLAM3'ün yeri |
 | `GOREV2_SETTINGS` | otomatik seçilir | SLAM kalibrasyon yaml'ını elle dayatır |
+| `PROVA_VERI` | otomatik aranır | Resmî örnek veri setinin yeri (demo için) |
 | `GOREV2_RUN_DIR` | `$GOREV2_DIR/run_yarisma` | SLAM çalışma klasörü |
 | `HF_HUB_OFFLINE` | — | `1` ise Görev 3 modelleri yalnız önbellekten okunur |
 
