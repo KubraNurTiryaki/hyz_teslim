@@ -102,12 +102,15 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > sadece üç görevin motorunu çağırıyor. Orkestra şefi gibi düşünün.
 
 **▶ EKRAN DEĞİŞ:** `gorev2_engine.py`, **satır 149-159**
-*Satır 155'te `subprocess.Popen` görünsün — C++ sürecinin doğduğu yer.*
+*`Ctrl+G` → 149 yaz, oraya git. **Satır 155'teki `subprocess.Popen(` ifadesini
+fareyle seç** — C++ sürecinin doğduğu yer orası. "Diğeri C++ süreci" derken imleç
+o satırda olsun.*
 
 > Program çalışırken iki süreç var. Biri Python süreci. Görev 1 ve Görev 3'ün
 > modelleri burada, ikisi de aynı GPU'da. Diğeri C++ süreci. SLAM orada çalışıyor.
 
-**▶ FARE:** **satır 152**'yi seç — `inbox` ve `outbox` klasörlerinin geçtiği satır
+**▶ FARE:** **satır 152**'yi seç — `cmd = [binp, self.vocab, self.settings, self.inbox, self.outbox]`.
+*`inbox` ve `outbox` kelimelerinin üstünde dur; iki sürecin buluştuğu klasörler bunlar.*
 
 > Peki bu ikisi nasıl haberleşiyor? Dosya sistemi üzerinden. Python kareyi bir
 > klasöre yazıyor. C++ tarafı bulduğu konumu bir metin dosyasına yazıyor. Python
@@ -128,8 +131,10 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > Bu döngüde kritik bir kısıt var. Sunucu, biz tahmin göndermeden bir sonraki
 > kareyi vermiyor. Yani tek bir karede takılırsak bütün oturumu kaybediyoruz.
 
-**▶ FARE:** aşağı kaydırıp **`try/except` bloklarını** sırayla göster
-(Görev 1, Görev 2, Görev 3 blokları — satır 181-297 arası)
+**▶ FARE:** yavaşça aşağı kaydır ve **üç `try:` satırını sırayla göster**:
+*satır 204 civarı (Görev 1) → satır 225 civarı (Görev 2) → satır 282 civarı (Görev 3).
+Her birinin altındaki `except Exception as e:` satırını da göster; "çökerse"
+kelimesini söylerken imleç `except` satırında olsun.*
 
 > O yüzden her görevi kendi try-except bloğuna aldık. Görev 1 çökerse kare boş
 > tespitle gidiyor. Görev 2 çökerse ölü hesap konumuyla gidiyor. Ama kare mutlaka
@@ -148,22 +153,29 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 >
 > Ama tek geçişli bir tespit bu iş için yetmiyor. Üç kademeli bir hat kurduk.
 
-**▶ FARE:** **satır 149**'u seç — `_det(kare, 1280, ...)`
+**▶ FARE:** **satır 149**'u seç — `for s, c, x1, y1, x2, y2 in _det(kare, 1280, ...)`.
+*`1280` sayısının üstünde dur, cümlede o sayıyı söylüyorsun.*
 
 > Birinci kademede 1280 pikselle bütün kareyi tarıyoruz.
 
-**▶ FARE:** **satır 164**'e in — `_det(crop, 192, 0.10)`
+**▶ FARE:** **satır 164**'e in — `zc = max([cc for ss, cc, *_ in _det(crop, 192, 0.10)...`
+*Önce satır 159'daki `_kirp(...)` çağrısını göster (ped kırpılıyor), sonra 164'teki
+`192` sayısını göster (kırpılan parça modele yeniden soruluyor).*
 
 > İkinci kademe iniş pedleri için. Aday pedi kırpıp modele bir daha soruyoruz.
 > Buna hakem diyoruz.
 
-**▶ FARE:** **satır 168**'e in — `_det(crop, 640, 0.10)`
+**▶ FARE:** **satır 168**'e in — `for si, ci, a1, b1, a2, b2 in _det(crop, 640, 0.10)`.
+*`640`'ı göster, sonra satır 183'e in: `inis = 0 if (dolu or kenar or ...) else 1`.
+"insan varsa inilemez" derken imleç `dolu` değişkeninde olsun.*
 
 > Üçüncü kademede onayladığımız pedin içine bakıyoruz. İnsan varsa o pede
 > inilemez diyoruz.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/05_uc_gorev_kare_520.jpg`
-*Turuncu kutuların üstünde "tasit sabit" yazıyor — cümle tam onu anlatıyor.*
+*Sağdaki kırmızı aracın turuncu kutusunu fareyle göster, sonra üstündeki
+**"tasit sabit"** etiketini göster — "sabit" kelimesini söylerken imleç orada olsun.
+Sol alttaki beyaz minibüsün etiketi de aynı şeyi diyor, istersen ona da geç.*
 
 > Hareketli mi sabit mi sorusunda da kameranın kendi hareketini ORB ve RANSAC ile
 > çıkarıyoruz.
@@ -177,7 +189,11 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > SLAM tarafında ORB-SLAM3'ün kendi geliştirdiğimiz sürümünü kullanıyoruz. Klasik
 > ORB yerine SuperPoint ve LightGlue koyduk.
 
-**▶ FARE:** sağlık 1 / sağlık 0 dallanmasını seç (**satır 297-340**)
+**▶ FARE:** dallanmayı sırayla göster: **satır 308** (`if int(health) == 1 ...`) →
+**satır 311** (`kaynak = "echo"`) → **satır 325-336** (kör bölge, `tf.apply(...)`) →
+**satır 336** (`kaynak = "slam"`) → **satır 339** (`kaynak = "deadreckon"`).
+*Üç kaynak adını (`echo` / `slam` / `deadreckon`) tek tek göstermen yeterli;
+anlattığın üç durum tam bunlar.*
 
 > Sunucu her karede bize bir sağlık biti gönderiyor. Sağlık bir ise gerçek konum
 > zaten elimizde. Onu aynen geri gönderiyoruz, hatamız sıfır. Ama o kareyi SLAM'e
@@ -188,7 +204,10 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > SLAM'in konumunu metreye çeviriyoruz.
 
 **▶ EKRAN DEĞİŞ:** `alignment.py`, **satır 112-121** (`allow_reflection` bloğu)
-*Satır 117'de `S_refl[1, 1] = -1.0` görünsün — anlattığın yansıma tam o satır.*
+*`Ctrl+G` → 112. **Satır 117'deki `S_refl[1, 1] = -1.0` satırını fareyle seç ve
+seçili bırak** — anlattığın yansıma tam orası, "yansıma vardı" derken imleç orada
+olsun. Sonra satır 119-120'yi (`if cand[3] < best[3]`) göster: artığı küçük olan
+adayın seçildiği yer.*
 
 > En kritik bulgumuz burada. Standart çözüm Umeyama dönüşümü. Ama Umeyama
 > yansımaya izin vermez.
@@ -198,7 +217,11 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > ters çeviriyordu.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/03_2026_rgb_3eksen_GT_vs_SLAM.png`
-*Üç panel: x, y, z ayrı. Üstteki eksen MAE'lerini (x:4.0 y:2.2 z:32.0) göster.*
+*Görseli tam ekran aç. **Önce en üstteki başlık satırında `eksen MAE x:4.0 y:2.2
+z:32.0` yazan yeri fareyle göster.** Sonra sırayla: üst panelde (x) iki çizginin
+çakışık olduğunu göster, orta panelde (y) aynısını, en alt panelde (z) yeşil
+çizginin maviden aşağı doğru ayrıldığı yeri göster. Üç panel arası geçişte
+acele etme.*
 
 > Bunu eksen eksen ayırdığımızda görüyoruz. Ekranda x ve y çizgileri çakışık,
 > ortalama hataları dört ve iki metre. Z ise otuz iki metre sapıyor. Yani hata
@@ -237,8 +260,11 @@ vurur. Geçiş bitince cümleye başla.
 > vektörünü çıkarıyor. Sonra referans fotoğrafla benzerliğine bakıyoruz.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/06_uc_gorev_kare_1955.jpg`
-*Sağ şeritteki iki küçük resmi (Ref 02, Ref 03) fareyle göster, sonra karedeki
-yeşil kutuyu göster — "aranan bu, bulunan şurası" akışı.*
+*Sırayı bozma, akış şu: **(1)** sağ üstteki `Ref 02` küçük resmini fareyle göster
+("aranan referans" bu) → **(2)** karenin ortasındaki büyük yeşil kutuya götür
+(halı saha — bulunan yer) → **(3)** altındaki `Ref 03` küçük resmini göster →
+**(4)** aşağıdaki `Ref 03` yeşil kutusuna (kale direği) götür.
+Yani her referansı **önce aranan fotoğraf, sonra bulunan yer** diye eşleştir.*
 
 > Sağdaki küçük resim aranan referans, yeşil kutu da sistemin bulduğu yer.
 
@@ -274,16 +300,19 @@ satırı okunsun diye bilerek böyle.
 > değiştirerek yüzlerce kez çalıştırdık.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/04_2026_rgb_yorunge_ve_hata.png`
-*Bu görselde iki panel var: solda uçuş yolu, sağda hata eğrisi. Konuşurken
-**sağ panele** odaklan.*
+*İki panel var: **solda** kuşbakışı uçuş yolu (mavi gerçek, yeşil SLAM),
+**sağda** hata eğrisi. Görsel açılınca 1 saniye sol panelde dur (yeşilin maviyi
+takip ettiği görünsün), sonra **imleci sağ panele götür** ve orada kal.*
 
 > Ekrandaki grafik resmî 2026 örnek videosunun tamamı.
 
-**▶ FARE:** sağ panelde eğrinin yükseldiği turuncu bölgeyi göster
+**▶ FARE:** sağ panelde imleci **kare 450'den 1150'ye doğru yavaşça sürükle** —
+eğrinin sıfırdan tırmanıp ~48 metreye çıktığı turuncu bölge burası.
 
 > Sağ panelde hata kör bölgede birikiyor.
 
-**▶ FARE:** sağ panelde **kare 1200**'ü göster (eğrinin dibe indiği yer)
+**▶ FARE:** sağ panelde **kare 1200**'deki dik düşüşü göster — eğri bir anda
+sıfıra iniyor. *İmleci tam o dikey inişin üstüne koy ve orada 2 saniye bekle.*
 
 > Sonra sistem altmış karelik sağlıklı bir pencere görünce hata sıfıra düşüyor.
 > Sistem kendini yeniden hizalıyor.
