@@ -13,17 +13,33 @@
 > metindir. `▶ EKRAN` / `▶ FARE` satırları ve 💡 notları **söylenmez**, sadece ne
 > göstereceğini anlatır.
 
-> ⚠ **Süre:** mail "5 dakikayı aşmayacak" diyor. Bu metin **644 konuşulan kelime.**
+> ⚠ **Süre:** mail "5 dakikayı aşmayacak" diyor. Bu metin **706 konuşulan kelime.**
 > **Ölçülen tempon: 131 kelime/dk** (27 Temmuz videosu: 650 kelime → 4:58.5).
-> Bu tempoda **≈ 4:55**. 5:00 için üst sınır 653 kelime — payın 9 kelime.
+> Ham süre bu tempoda **≈ 5:28** → **hızlandırma şart.**
 
 > 🎬 **KURGUDA NE DEĞİŞTİ (27 Temmuz videosuna göre)**
-> **Eklenen:** #14 canlı koşu klibi (18 sn) — TEKNOFEST'in "her görevin örnek
-> veri seti üzerinde çalıştırıldığı kesit" şartı için.
-> **Çıkarılan:** (a) `resmi_mock.py` beati ve mock sunucu paragrafı — o işi artık
-> klip anlatıyor, (b) Görev 1'deki ego-hareket cümlesi.
-> Video süresi kabaca başa baş kalır: +18 sn klip, −19 sn çıkarılanlar.
-> **Kurgudan sonra süreyi mutlaka ölç.**
+> **Eklenen:** (a) #14 canlı koşu klibi, 18 sn — TEKNOFEST'in "her görevin örnek
+> veri seti üzerinde çalıştırıldığı kesit" şartı için; (b) kapanışta KURULUM.md /
+> README.md'ye yönlendiren cümle. **Hiçbir şey çıkarılmadı.**
+>
+> **Süre çözümü — hızlandırma.** Ham video ≈ 5:28. Gereken çarpan:
+> | Çarpan | Sonuç |
+> |---|---|
+> | 1.08x | 5:04 ❌ hâlâ aşıyor |
+> | **1.11x** | **4:55 ✅ önerilen** |
+> | 1.15x | 4:45 (biraz aceleci duyulur) |
+>
+> Sesi tizleştirmeden hızlandırmak için (`atempo` perdeyi korur):
+> ```bash
+> ffmpeg -i ham_video.mp4 -filter_complex \
+>   "[0:v]setpts=PTS/1.11[v];[0:a]atempo=1.11[a]" \
+>   -map "[v]" -map "[a]" -c:v libx264 -crf 20 -preset slow \
+>   -c:a aac -b:a 192k -movflags +faststart nihai_video.mp4
+> ```
+> **Kurgudan sonra süreyi mutlaka ölç:** `ffprobe -show_entries format=duration nihai_video.mp4`
+>
+> Hızlandırma istemezsen alternatif: klibi 18 sn yerine 12 sn'ye kırp ve
+> "Bu sayıları nasıl ölçtük" paragrafını çıkar → ~5:02, yine de sınırda kalır.
 
 ---
 
@@ -47,8 +63,10 @@
 | 12 | 3:15 | Kod — FP koruması, **satır 275-295** | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
 | 13 | 3:30 | **Görsel (tam ekran)** — yeşil G3 kutusu + referans küçük resmi | `gorseller/06_uc_gorev_kare_1955.jpg` |
 | 14 | 3:45 | **KLİP (tam ekran, 18 sn)** — üç görev örnek veri üzerinde çalışıyor | `gorseller/08_uc_gorev_canli_kosu.mp4` |
-| 15 | 4:05 | **Görsel (tam ekran)** — yörünge + hata eğrisi | `gorseller/04_2026_rgb_yorunge_ve_hata.png` |
-| 16 | 4:25 | Kod — `detect()` tamamı, uzaklaştırılmış | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
+| 15 | 4:05 | Kod — `--drop`, `--limit` argümanları | `resmi_mock.py` |
+| 16 | 4:15 | **Görsel (tam ekran)** — yörünge + hata eğrisi | `gorseller/04_2026_rgb_yorunge_ve_hata.png` |
+| 17 | 4:35 | Dosya ağacı — `KURULUM.md` ve `README.md`'yi göster | *(teslim klasörü kökü)* |
+| 18 | 4:45 | Kod — `detect()` tamamı, uzaklaştırılmış | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
 
 **Yedek görseller** (metinde geçmiyor, elinin altında dursun):
 - Kutulu hareketli prova, 16 sn: `gorseller/07_kutulu_prova_16sn.mp4`
@@ -145,11 +163,10 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > inilemez diyoruz.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/05_uc_gorev_kare_520.jpg`
-*Turuncu kutuların üstünde "tasit sabit" yazıyor — kutuların etiketini fareyle göster.*
+*Turuncu kutuların üstünde "tasit sabit" yazıyor — cümle tam onu anlatıyor.*
 
-💡 **KURGU NOTU:** 27 Temmuz videosundaki *"Hareketli mi sabit mi sorusunda da
-kameranın kendi hareketini ORB ve RANSAC ile çıkarıyoruz"* cümlesi süre için
-**çıkarıldı**. Görseli 2-3 saniye göster ve Görev 2'ye geç.
+> Hareketli mi sabit mi sorusunda da kameranın kendi hareketini ORB ve RANSAC ile
+> çıkarıyoruz.
 
 ## 2:00 – 3:15 · Görev 2, GPS olmadan konum ⭐ VİDEONUN MERKEZİ
 
@@ -246,7 +263,15 @@ satırı okunsun diye bilerek böyle.
 > kare: Görev 1'in nesneleri, Görev 2'nin konumu ve hatası, Görev 3'ün referans
 > kutuları. Kesintide Görev 2 kendi kestirimini üretiyor.
 
-## 4:05 – 4:25 · Tüm videoda hata nasıl davranıyor
+## 4:05 – 4:35 · Bu sayıları nasıl ölçtük
+
+**▶ EKRAN DEĞİŞ:** `resmi_mock.py`, **satır 177-180** (`--limit`, `--drop` argümanları)
+
+> Peki bu sayıları nereden biliyoruz?
+>
+> Resmî sunucunun yerel bir kopyasını yazdık. Aynı protokol, aynı sağlık biti
+> düşüşleri, aynı referans pencereleri. Yarışma komutunun aynısını, sadece adresi
+> değiştirerek yüzlerce kez çalıştırdık.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/04_2026_rgb_yorunge_ve_hata.png`
 *Bu görselde iki panel var: solda uçuş yolu, sağda hata eğrisi. Konuşurken
@@ -263,7 +288,13 @@ satırı okunsun diye bilerek böyle.
 > Sonra sistem altmış karelik sağlıklı bir pencere görünce hata sıfıra düşüyor.
 > Sistem kendini yeniden hizalıyor.
 
-## 4:25 – 4:40 · Kapanış
+## 4:35 – 4:55 · Kapanış
+
+**▶ EKRAN DEĞİŞ:** dosya ağacında **`KURULUM.md`** ve **`README.md`**'yi göster
+(tek tıkla açıp içindekiler kısmını 2 saniye göstermen yeterli)
+
+> Kurulumun tamamı KURULUM ve README dosyalarında adım adım yazılı. Kurmada ya da
+> çalıştırmada sorun yaşarsanız bu iki dosyaya bakabilirsiniz.
 
 **▶ EKRAN DEĞİŞ:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
 `detect()` tamamı. `Ctrl+-` ile 2-3 kez uzaklaştır, fonksiyon bütün olarak görünsün.
@@ -301,7 +332,7 @@ satırı okunsun diye bilerek böyle.
 - Tarayıcı sekmeleri, masaüstü bildirimleri (kayıttan önce kapatın)
 
 ## Süre kontrolü
-644 kelime, ölçülen tempoda ≈ **4:55**. Kurgudan sonra süre 5:00'i geçiyorsa
+706 kelime, ham süre ≈ 5:28. **1.11x hızlandırma ile 4:55.** Hızlandırmak istemezsen
 kesilecek ilk yerler, sırayla:
 1. Görsel 03 cümlesini kısalt → "Hata neredeyse tamamen z ekseninde; x ve y
    çakışık." (görseli göster ama uzun anlatma) — ~18 kelime kazanır

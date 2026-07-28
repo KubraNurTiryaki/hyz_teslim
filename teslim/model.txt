@@ -5,7 +5,7 @@ Ucu gorevde kullanilan model dosyalarinin TOPLAM boyutu 727 MB'dir. Sartnamedeki
 500 MB sinirini astigi icin model dosyalari Google Drive uzerinden paylasilmistir.
 
 GOOGLE DRIVE BAGLANTISI:
-<<< BURAYA DRIVE BAGLANTISI YAPISTIRILACAK >>>
+https://drive.google.com/drive/folders/1AcPQiHD4Wg3WJ1oANS_dQRPhor1Rp5J3?usp=sharing
 
 Erisim izni verilen adres: havaciliktayapayzekayarismasi@teknofest.org
 
@@ -48,3 +48,13 @@ sozlugu ise SP_SLAM3 deposunda git-lfs ile tutulur:
 
 Drive paketi, cevrimdisi kurulum ve butunluk dogrulamasi icin saglanmistir.
 Ayrintilar: README.md > "3) Model dosyalari"
+
+--------------------------------------------------------------------------------
+YUKLEME SONRASI KONTROL LISTESI (yarismaci sorumlulugundadir)
+--------------------------------------------------------------------------------
+
+[ ] Klasor paylasimi: "Baglantiya sahip olan herkes" -> Goruntuleyici
+[ ] Ayrica dogrudan paylas: havaciliktayapayzekayarismasi@teknofest.org (Goruntuleyici)
+[ ] Gizli sekmede baglantiyi ac, oturum acmadan dosyalarin GORUNDUGUNU dogrula
+[ ] Bir dosyayi (or. gorev1/birincil_run7_26l.pt) indirip actigini dogrula
+[ ] Indirilen dosyalarin butunlugu:  sha256sum -c SHA256SUMS.txt
