@@ -1,0 +1,50 @@
+MODEL DOSYALARI — hamidiye_4907501
+TEKNOFEST 2026 Havacilikta Yapay Zeka Yarismasi
+
+Ucu gorevde kullanilan model dosyalarinin TOPLAM boyutu 727 MB'dir. Sartnamedeki
+500 MB sinirini astigi icin model dosyalari Google Drive uzerinden paylasilmistir.
+
+GOOGLE DRIVE BAGLANTISI:
+<<< BURAYA DRIVE BAGLANTISI YAPISTIRILACAK >>>
+
+Erisim izni verilen adres: havaciliktayapayzekayarismasi@teknofest.org
+
+--------------------------------------------------------------------------------
+PAKET ICERIGI (727 MB)
+--------------------------------------------------------------------------------
+
+  README_MODELLER.md    Her modelin ne oldugu, nereye konacagi, tek komutla
+                        yerlestirme betigi ve SHA256 saglama toplamlari
+  SHA256SUMS.txt        Butunluk dogrulamasi icin:  sha256sum -c SHA256SUMS.txt
+
+  gorev1/
+    birincil_run7_26l.pt ................  51 MB   YOLO26-large, 4 sinif
+                                                   (bu dosya kaynak kod ZIP'inde
+                                                    de mevcuttur)
+  gorev2_slam/
+    superpoint.pt .......................   5 MB   ozellik cikarici (C++)
+    lightglue.pt ........................  46 MB   eslestirici (C++)
+    cosplace.pt .........................  44 MB   yer tanima (yapilandirmada KAPALI)
+    superpoint_voc.yml.gz ............... 117 MB   SLAM sozlugu
+
+  gorev3/
+    FastSAM-s.pt ........................  23 MB   segmentasyon
+    superpoint_v1.pth ...................   5 MB   SuperPoint (Python)
+    superpoint_lightglue_v0-1_arxiv.pth .  46 MB   LightGlue (Python)
+    huggingface_hub/
+      models--facebook--dinov2-with-registers-base ... 331 MB  DINOv2 gomme
+      models--zju-community--matchanything_eloftr ....  62 MB  ELoFTR (termal)
+
+--------------------------------------------------------------------------------
+NOT
+--------------------------------------------------------------------------------
+
+Gorev 3 modelleri (FastSAM, DINOv2, ELoFTR, SuperPoint/LightGlue .pth) internet
+baglantisi varken ILK CALISTIRMADA otomatik iner. Gorev 2'nin .pt dosyalari ve
+sozlugu ise SP_SLAM3 deposunda git-lfs ile tutulur:
+
+    git clone https://github.com/kayranecatikara/SP_SLAM3.git ~/SP_SLAM3
+    cd ~/SP_SLAM3 && git lfs pull
+
+Drive paketi, cevrimdisi kurulum ve butunluk dogrulamasi icin saglanmistir.
+Ayrintilar: README.md > "3) Model dosyalari"

@@ -10,18 +10,20 @@
 > Videoda **teslim ettiğimiz dosyaların ta kendisini** gösteriyoruz.
 
 > **Bu belgeyi nasıl okuyacaksın:** `>` ile başlayan satırlar **söylenecek**
-> metindir. `EKRAN #n` satırları ve 💡 notları **söylenmez**, sadece ne
+> metindir. `▶ EKRAN` / `▶ FARE` satırları ve 💡 notları **söylenmez**, sadece ne
 > göstereceğini anlatır.
 
-> ⚠ **Süre:** mail "5 dakikayı aşmayacak" diyor. Bu metin **661 konuşulan kelime**
-> (sayıldı, tahmin değil). 150 kelime/dk → **4:24** · 145 → 4:34 ·
-> **en yavaş ihtimalde (135) 4:54**. Her koşulda 5 dakikanın altında,
-> ama pay daraldı — prova çekiminde süreyi mutlaka ölç.
+> ⚠ **Süre:** mail "5 dakikayı aşmayacak" diyor. Bu metin **644 konuşulan kelime.**
+> **Ölçülen tempon: 131 kelime/dk** (27 Temmuz videosu: 650 kelime → 4:58.5).
+> Bu tempoda **≈ 4:55**. 5:00 için üst sınır 653 kelime — payın 9 kelime.
 
-> 🎬 **27 Temmuz'da çekilen video 4:58.5 idi.** Bu metin, oraya 30 saniyelik
-> canlı koşu klibi (#13) eklenmiş hâlidir. Yer açmak için **mock sunucu
-> paragrafı çıkarıldı** (o bölümü artık klip anlatıyor). Kurguda: klibi ekle,
-> mock sunucu anlatımının olduğu ~30 saniyeyi çıkar.
+> 🎬 **KURGUDA NE DEĞİŞTİ (27 Temmuz videosuna göre)**
+> **Eklenen:** #14 canlı koşu klibi (18 sn) — TEKNOFEST'in "her görevin örnek
+> veri seti üzerinde çalıştırıldığı kesit" şartı için.
+> **Çıkarılan:** (a) `resmi_mock.py` beati ve mock sunucu paragrafı — o işi artık
+> klip anlatıyor, (b) Görev 1'deki ego-hareket cümlesi.
+> Video süresi kabaca başa baş kalır: +18 sn klip, −19 sn çıkarılanlar.
+> **Kurgudan sonra süreyi mutlaka ölç.**
 
 ---
 
@@ -39,16 +41,16 @@
 | 6 | 1:45 | **Görsel (tam ekran)** — turuncu Görev 1 kutuları | `gorseller/05_uc_gorev_kare_520.jpg` |
 | 7 | 2:00 | Kod — `process_frame()`, **satır 297-340** | `gorev2_engine.py` |
 | 8 | 2:15 | Kod — `_umeyama_2d()`, **satır 112-121** | `alignment.py` |
-| 9 | 2:45 | **Görsel (tam ekran)** — BOZUK hizalama, 33.8 m | `gorseller/01_hizalama_BOZUK_33.8m.png` |
-| 10 | 2:55 | **Görsel (tam ekran)** — DÜZELTİLMİŞ, 6.2 m | `gorseller/02_hizalama_DUZELTILMIS_6.2m.png` |
-| 11 | 3:15 | Kod — FP koruması, **satır 275-295** | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
-| 12 | 3:30 | **Görsel (tam ekran)** — yeşil G3 kutusu + referans küçük resmi | `gorseller/06_uc_gorev_kare_1955.jpg` |
-| 13 | 3:45 | **KLİP (tam ekran, 29,8 sn)** — üç görev örnek veri üzerinde çalışıyor | `gorseller/08_uc_gorev_canli_kosu.mp4` |
-| 14 | 4:15 | **Görsel (tam ekran)** — yörünge + hata eğrisi | `gorseller/04_2026_rgb_yorunge_ve_hata.png` |
-| 15 | 4:30 | Kod — `detect()` tamamı, uzaklaştırılmış | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
+| 9 | 2:40 | **Görsel (tam ekran)** — eksen bazında hata (x:4.0 y:2.2 **z:32.0**) | `gorseller/03_2026_rgb_3eksen_GT_vs_SLAM.png` |
+| 10 | 2:45 | **Görsel (tam ekran)** — BOZUK hizalama, 33.8 m | `gorseller/01_hizalama_BOZUK_33.8m.png` |
+| 11 | 2:55 | **Görsel (tam ekran)** — DÜZELTİLMİŞ, 6.2 m | `gorseller/02_hizalama_DUZELTILMIS_6.2m.png` |
+| 12 | 3:15 | Kod — FP koruması, **satır 275-295** | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
+| 13 | 3:30 | **Görsel (tam ekran)** — yeşil G3 kutusu + referans küçük resmi | `gorseller/06_uc_gorev_kare_1955.jpg` |
+| 14 | 3:45 | **KLİP (tam ekran, 18 sn)** — üç görev örnek veri üzerinde çalışıyor | `gorseller/08_uc_gorev_canli_kosu.mp4` |
+| 15 | 4:05 | **Görsel (tam ekran)** — yörünge + hata eğrisi | `gorseller/04_2026_rgb_yorunge_ve_hata.png` |
+| 16 | 4:25 | Kod — `detect()` tamamı, uzaklaştırılmış | `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py` |
 
 **Yedek görseller** (metinde geçmiyor, elinin altında dursun):
-- RGB 3 eksen, GT vs SLAM: `gorseller/03_2026_rgb_3eksen_GT_vs_SLAM.png`
 - Kutulu hareketli prova, 16 sn: `gorseller/07_kutulu_prova_16sn.mp4`
 
 Klasörleri açmak için:
@@ -143,10 +145,11 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > inilemez diyoruz.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/05_uc_gorev_kare_520.jpg`
-*Turuncu kutuların üstünde "tasit sabit" yazıyor — cümle tam onu anlatıyor.*
+*Turuncu kutuların üstünde "tasit sabit" yazıyor — kutuların etiketini fareyle göster.*
 
-> Hareketli mi sabit mi sorusunda da kameranın kendi hareketini ORB ve RANSAC ile
-> çıkarıyoruz.
+💡 **KURGU NOTU:** 27 Temmuz videosundaki *"Hareketli mi sabit mi sorusunda da
+kameranın kendi hareketini ORB ve RANSAC ile çıkarıyoruz"* cümlesi süre için
+**çıkarıldı**. Görseli 2-3 saniye göster ve Görev 2'ye geç.
 
 ## 2:00 – 3:15 · Görev 2, GPS olmadan konum ⭐ VİDEONUN MERKEZİ
 
@@ -176,6 +179,13 @@ xdg-open ~/hyz_YEDEK_2026-07-26/teslim
 > Bizim verimizde SLAM'in çerçevesiyle gerçek çerçeve arasında bir yansıma vardı.
 > Yansımaya izin vermeyen çözüm x ve y'yi doğru buluyordu. Ama karşılığında z'yi
 > ters çeviriyordu.
+
+**▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/03_2026_rgb_3eksen_GT_vs_SLAM.png`
+*Üç panel: x, y, z ayrı. Üstteki eksen MAE'lerini (x:4.0 y:2.2 z:32.0) göster.*
+
+> Bunu eksen eksen ayırdığımızda görüyoruz. Ekranda x ve y çizgileri çakışık,
+> ortalama hataları dört ve iki metre. Z ise otuz iki metre sapıyor. Yani hata
+> neredeyse tamamen z ekseninde.
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/01_hizalama_BOZUK_33.8m.png`
 *Cümleyi söylemeden önce **1 saniye sus**, göz grafiğe otursun.*
@@ -222,26 +232,21 @@ yeşil kutuyu göster — "aranan bu, bulunan şurası" akışı.*
 > göndermiyoruz. Çünkü yanlış pozitif ceza getiriyor. Arayüzde güven skoru alanı
 > yok. Gönderilen her kutu kesin iddia sayılıyor.
 
-## 3:45 – 4:30 · Üç görev örnek veri seti üzerinde & doğrulama
+## 3:45 – 4:05 · Üç görev örnek veri seti üzerinde ⬅ YENİ
 
-**▶ EKRAN:** `gorseller/08_uc_gorev_canli_kosu.mp4` — **tam ekran oynat** (29,8 sn)
+**▶ EKRAN DEĞİŞ:** `gorseller/08_uc_gorev_canli_kosu.mp4` — **tam ekran oynat (18 sn)**
 
-💡 **KURGU NOTU (okunmaz):** Klip sessizdir, üzerine konuşulur. Hızlandırma.
-Klibin iç zamanlaması: 0-8 sn başlık + model yükleme · 8-20 sn `SAGLIKLI`
-kareler · 20-23 sn `KESINTI`'ye geçiş · 23-26 sn Görev 3 kutuları beliriyor ·
-26-30 sn özet. Anlatımı bu akışa denk getir; 64 kelime ≈ 26 sn, yani klibin
-sonunda birkaç saniye sessizlik kalır — özet satırı okunsun diye böyle.
+💡 **KURGU NOTU (okunmaz):** Klip sessizdir, üzerine konuşulur, hızlandırma.
+İç zamanlaması: 0-4,5 sn başlık + model yüklemeleri · 4,5-14,5 sn `SAGLIKLI`
+kareler → `KESINTI` geçişi → Görev 3 kutuları beliriyor · 14,5-18 sn özet.
+Anlatım 31 kelime ≈ 14 sn, yani **sonda ~4 saniye sessizlik kalır** — özet
+satırı okunsun diye bilerek böyle.
 
-> Şimdi üç görevi resmî örnek veri seti üzerinde birlikte çalıştırıyoruz.
-> Ekrandaki komut, yarışma istemcisinin detect fonksiyonunu çağırıyor; tek fark
-> kareleri sunucudan değil örnek videodan okuması.
->
-> Her satır bir kare. Görev 1'in nesneleri, Görev 2'nin konumu ve hatası,
-> Görev 3'ün referans kutuları aynı satırda.
->
-> Üstteki kareler sağlıklı. Aşağıda kesintiye giriyoruz, Görev 2 kendi
-> kestirimini üretiyor. Referans penceresi açılınca Görev 3 de kutu göndermeye
-> başlıyor.
+> Şimdi üç görevi resmî örnek veri seti üzerinde çalıştırıyoruz. Her satır bir
+> kare: Görev 1'in nesneleri, Görev 2'nin konumu ve hatası, Görev 3'ün referans
+> kutuları. Kesintide Görev 2 kendi kestirimini üretiyor.
+
+## 4:05 – 4:25 · Tüm videoda hata nasıl davranıyor
 
 **▶ EKRAN DEĞİŞ (tam ekran):** `gorseller/04_2026_rgb_yorunge_ve_hata.png`
 *Bu görselde iki panel var: solda uçuş yolu, sağda hata eğrisi. Konuşurken
@@ -258,7 +263,7 @@ sonunda birkaç saniye sessizlik kalır — özet satırı okunsun diye böyle.
 > Sonra sistem altmış karelik sağlıklı bir pencere görünce hata sıfıra düşüyor.
 > Sistem kendini yeniden hizalıyor.
 
-## 4:30 – 4:45 · Kapanış
+## 4:25 – 4:40 · Kapanış
 
 **▶ EKRAN DEĞİŞ:** `istemci/TAKIM_BAGLANTI_ARAYUZU/src/object_detection_model.py`,
 `detect()` tamamı. `Ctrl+-` ile 2-3 kez uzaklaştır, fonksiyon bütün olarak görünsün.
@@ -275,7 +280,6 @@ sonunda birkaç saniye sessizlik kalır — özet satırı okunsun diye böyle.
 ## Ekran kaydı
 - **1080p** kaydedin, 4K gerekmiyor.
 - **Editörde yazı tipini 16-18 pt yapın.** Okunmayan kod, gösterilmemiş sayılır.
-  En sık yapılan hata bu.
 - Dosyaları **önceden sekmelerde açın** (çekim listesi sırasıyla).
 - Anlattığınız satırı fareyle seçin ya da kısa zoom yapın.
 - Grafikleri **tam ekran** gösterin, kod sekmesinin yanında küçük değil.
@@ -297,10 +301,12 @@ sonunda birkaç saniye sessizlik kalır — özet satırı okunsun diye böyle.
 - Tarayıcı sekmeleri, masaüstü bildirimleri (kayıttan önce kapatın)
 
 ## Süre kontrolü
-661 kelime. Prova çekiminde **4:45'i geçiyorsa** kesilecek ilk yerler, sırayla:
-1. Görev 1'deki ego-hareket cümlesi ("Hareketli mi sabit mi…") — 14 kelime
-2. "Bu sayıları nasıl ölçtük" ilk paragrafı — 28 kelime
-3. Görev 1'deki "hakem" cümlesi ("Aday pedi kırpıp…") — 12 kelime
+644 kelime, ölçülen tempoda ≈ **4:55**. Kurgudan sonra süre 5:00'i geçiyorsa
+kesilecek ilk yerler, sırayla:
+1. Görsel 03 cümlesini kısalt → "Hata neredeyse tamamen z ekseninde; x ve y
+   çakışık." (görseli göster ama uzun anlatma) — ~18 kelime kazanır
+2. Görev 1'deki "hakem" cümlesi ("Aday pedi kırpıp…") — 12 kelime
+3. Kapanıştaki "Canlı simülasyonda…" cümlesi — 8 kelime
 
 ## Videoda söylenen her rakamın kaynağı
 Bu tablo **kendi doğrulamanız için**: bir sayı söylemeden önce kaynağına bakın.
@@ -308,6 +314,8 @@ Bu tablo **kendi doğrulamanız için**: bir sayı söylemeden önce kaynağına
 | Rakam | Kaynak |
 |---|---|
 | mAP@0.5 = 0.849 | Görev 1 eğitim kaydı |
+| x:4.0 y:2.2 z:32.0 m | `gorseller/03_*.png` grafik başlığı |
 | 33,8 m → 6,2 m (z: 27,7 → 3,2) | `gorseller/01_*.png` ve `02_*.png` grafik başlıkları |
 | 2025 Denklem-2: 4,3 – 8,8 m | `evaluate_denklem2.py` ile hesaplanan oturum sonuçları |
 | 2250/2250 kare | 16 Temmuz 2026 çevrim içi oturum kaydı |
+| Klipteki özet (120 kare, 285 / 0.6 m / 90) | `demo_ornek_veri.py` koşusu, 27 Temmuz |
