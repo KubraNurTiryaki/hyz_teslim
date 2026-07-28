@@ -31,17 +31,29 @@ VARSAYILAN_YAML = os.path.expanduser(
     "~/SP_SLAM3/Examples/Monocular/teknofest_1080p.yaml")
 # Veri seti yoksa elde ne varsa onu kullan (hyz deposundaki örnek kareler)
 KARE_KAYNAKLARI = [
+    os.environ.get("DUMAN_KARELERI", ""),                       # elle yol verilebilir
+    os.path.join(BURADA, "hyz_gorev3", "test", "rgb_kare*.jpg"),  # paket icinden
+    os.path.join(BURADA, "yarisma_kareler", "kare_*.jpg"),        # paket icinden
     os.path.expanduser("~/Masaüstü/hyz_gorev3/test/rgb_kare*.jpg"),
-    os.path.join(BURADA, "yarisma_kareler", "kare_*.jpg"),
+    os.path.expanduser("~/Desktop/hyz_gorev3/test/rgb_kare*.jpg"),
 ]
 
 
 def kareleri_bul():
     for desen in KARE_KAYNAKLARI:
+        if not desen:
+            continue
         yollar = sorted(glob.glob(desen))
         if yollar:
             return yollar
-    return []
+    sys.exit(
+        "\nHATA: duman testi icin ornek kare bulunamadi.\n\n"
+        "Bu test, birkac ardisik ucus karesi gerektirir (icerik onemli degil).\n"
+        "Cozum — sunlardan biri:\n"
+        f"  - hyz deposunun test klasorunu su yola kopyalayin:\n"
+        f"      {os.path.join(BURADA, 'hyz_gorev3', 'test')}\n"
+        "  - ya da kendi karelerinizin yolunu verin:\n"
+        "      DUMAN_KARELERI='/yol/kareler/*.jpg' python3 gorev2_duman_testi.py\n")
 
 
 def main():

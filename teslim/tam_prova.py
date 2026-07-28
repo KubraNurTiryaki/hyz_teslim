@@ -21,25 +21,32 @@ import time
 import cv2
 import numpy as np
 
+def _ort(ad, varsayilan):
+    """Ortam değişkeniyle geçersiz kılınabilen ayar (varsayılan = RGB koşusu)."""
+    return os.path.expanduser(os.environ.get(ad) or varsayilan)
+
+
 ISTEMCI = os.path.expanduser(
     "~/Masaüstü/test/havacilikta-yapay-zeka-yarismasi/TAKIM_BAGLANTI_ARAYUZU")
-VIDEO = os.path.expanduser(
-    "~/Masaüstü/teknofest_gorev2/gorev_1/THYZ_2026_Ornek_Veri_1.MP4")
-GT_CSV = os.path.expanduser(
-    "~/Masaüstü/hyz_gorev3/THYZ_2026_Ornek_Veri_Seti/THYZ_2026_Ornek_Veri_1_translation.csv")
-REF_DIR = os.path.expanduser(
-    "~/Masaüstü/hyz_gorev3/THYZ_2026_Ornek_Veri_Seti/THYZ_2026_Ornek_Veri_1_Referans_Nesneler")
-CIKTI = os.path.expanduser("~/Masaüstü/teknofest_gorev2/tam_prova_jsonlar")
-TMP = os.path.expanduser("~/Masaüstü/teknofest_gorev2/tam_prova_tmp")
+VIDEO = _ort("PROVA_VIDEO",
+             "~/Masaüstü/teknofest_gorev2/gorev_1/THYZ_2026_Ornek_Veri_1.MP4")
+GT_CSV = _ort("PROVA_GT",
+              "~/Masaüstü/hyz_gorev3/THYZ_2026_Ornek_Veri_Seti/THYZ_2026_Ornek_Veri_1_translation.csv")
+REF_DIR = _ort("PROVA_REF_DIR",
+               "~/Masaüstü/hyz_gorev3/THYZ_2026_Ornek_Veri_Seti/THYZ_2026_Ornek_Veri_1_Referans_Nesneler")
+CIKTI = _ort("PROVA_CIKTI", "~/Masaüstü/teknofest_gorev2/tam_prova_jsonlar")
+TMP = _ort("PROVA_TMP", "~/Masaüstü/teknofest_gorev2/tam_prova_tmp")
+# Görev 3 termal yolu (ELoFTR) oturum adından tetiklenir: gorev3/integrate.py:67
+OTURUM = os.environ.get("PROVA_SESSION") or "TAM_PROVA_2026_RGB"
 ORNEKLEME = 4           # 30fps -> 7.5 kare/sn
-TOPLAM = 2250
+TOPLAM = int(os.environ.get("PROVA_TOPLAM") or 2250)
 TABAN_SN = 0.25         # MIN_FRAME_INTERVAL taklidi
 SUNUCU = "http://tam-prova-yerel/"
 
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
-os.environ["GOREV2_RUN_DIR"] = os.path.expanduser(
-    "~/Masaüstü/teknofest_gorev2/run_tam_prova")
+os.environ["GOREV2_RUN_DIR"] = _ort(
+    "PROVA_RUN_DIR", "~/Masaüstü/teknofest_gorev2/run_tam_prova")
 
 sys.path.insert(0, ISTEMCI)
 os.chdir(ISTEMCI)
@@ -104,7 +111,7 @@ def main():
                      for u in ref_image_paths]
 
         fp = FramePredictions(f"{SUNUCU}frames/{s}/", f"/PROVA/frame_{s:06d}.webp",
-                              "TAM_PROVA_2026_RGB", gx, gy, gz)
+                              OTURUM, gx, gy, gz)
         fp = model.detect(fp, sg, active_refs=aktif,
                           ref_image_paths=ref_image_paths, frame_image_path=yol)
         payload = fp.create_payload(SUNUCU)

@@ -114,7 +114,7 @@ import sys; sys.path.insert(0,'gorev_1')
 from yarisma_pipeline import model_yukle
 assert model_yukle('gorev_1/birincil_run7_26l.pt').names == {0:'tasit',1:'insan',2:'uap',3:'uai'}
 print('G1 OK')"
-python3 gorev2_duman_testi.py            # SLAM duman testi, veri gerekmez
+python3 gorev2_duman_testi.py            # SLAM duman testi (birkaç örnek kare ister)
 ```
 
 ---
@@ -382,7 +382,7 @@ Burada bir **sınıf** aranmaz; verilen tek örnek fotoğraftaki **o nesne** bul
 | Aşama | Dosya | Ne yapar |
 |---|---|---|
 | Segmentasyon | `localizer_samdino.py` | FastSAM kareyi bölgelere ayırır; tüm kareyi kaplayan arka plan segmenti aday dışı bırakılır |
-| Gömme | `dino_embed.py` | Her segmentin DINOv2 vektörü; referans çok ölçekli gömülür |
+| Gömme | `embedder.py` | Her segmentin DINOv2 vektörü; referans çok ölçekli gömülür |
 | Eşleme | `reference_matcher.py` | Kosinüs benzerliği + tier yönlendirmesi (`compact` / `gray` / `crossmodal`) |
 | Termal yol | `crossmodal.py` | ELoFTR + MAGSAC; **renkli** referansı **termal** karede arar |
 | Entegrasyon | `integrate.py` | `detect_for_frame()`; oturum adında "termal" geçerse çapraz-modal yolu açar |

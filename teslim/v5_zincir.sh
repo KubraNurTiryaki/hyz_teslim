@@ -1,5 +1,6 @@
 #!/bin/bash
-# v5 doğrulama zinciri: harman (blend_tau=600) — O2, O3, O4 sıralı.
+# v5 doğrulama zinciri: O2, O3, O4 sıralı (saf SLAM — bridge.py --blend-tau
+# varsayılanı 0'dır; harman v7'de ölçülüp KÖTÜLEŞTİRDİĞİ için kapalı bırakıldı).
 set -u
 cd "$(dirname "$0")"
 PY=$HOME/venvs/slam/bin/python

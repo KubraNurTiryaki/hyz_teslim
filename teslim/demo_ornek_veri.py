@@ -31,7 +31,33 @@ os.environ.setdefault("GOREV3_DIR", os.path.join(BURADA, "hyz_gorev3"))
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
-VERI = os.path.expanduser("~/Masaüstü/veri_2026/THYZ_2026_Ornek_Veri_Seti")
+def _veri_bul() -> str:
+    """Resmi ornek veri setini bulur. Sirasiyla: PROVA_VERI ortam degiskeni,
+    bu klasorun yani, yaygin indirme konumlari."""
+    adaylar = [
+        os.environ.get("PROVA_VERI", ""),
+        os.path.join(BURADA, "THYZ_2026_Ornek_Veri_Seti"),
+        os.path.join(BURADA, "hyz_gorev3", "THYZ_2026_Ornek_Veri_Seti"),
+        os.path.expanduser("~/Masaüstü/veri_2026/THYZ_2026_Ornek_Veri_Seti"),
+        os.path.expanduser("~/Desktop/veri_2026/THYZ_2026_Ornek_Veri_Seti"),
+        os.path.expanduser("~/İndirilenler/THYZ_2026_Ornek_Veri_Seti"),
+        os.path.expanduser("~/Downloads/THYZ_2026_Ornek_Veri_Seti"),
+    ]
+    for a in adaylar:
+        if a and os.path.exists(os.path.join(a, "THYZ_2026_Ornek_Veri_1.MP4")):
+            return a
+    sys.exit(
+        "\nHATA: resmi ornek veri seti bulunamadi.\n\n"
+        "Bu demo, TEKNOFEST'in yayinladigi ornek veri setini gerektirir\n"
+        "(THYZ_2026_Ornek_Veri_1.MP4 + translation.csv + Referans_Nesneler).\n\n"
+        "Cozum: veri setini indirip su klasorlerden birine koyun\n"
+        f"  - {os.path.join(BURADA, 'THYZ_2026_Ornek_Veri_Seti')}\n"
+        "  - ~/Masaustu/veri_2026/THYZ_2026_Ornek_Veri_Seti\n"
+        "ya da yolu dogrudan verin:\n"
+        "  PROVA_VERI=/yol/THYZ_2026_Ornek_Veri_Seti python3 demo_ornek_veri.py\n")
+
+
+VERI = _veri_bul()
 VIDEO = os.path.join(VERI, "THYZ_2026_Ornek_Veri_1.MP4")
 GT_CSV = os.path.join(VERI, "THYZ_2026_Ornek_Veri_1_translation.csv")
 REF_DIR = os.path.join(VERI, "THYZ_2026_Ornek_Veri_1_Referans_Nesneler")
